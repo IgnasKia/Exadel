@@ -8,6 +8,7 @@ const uuid = require('uuid');
 router.get('/', (req, res) => {
     res.json(members);
 })
+
 // Get single member
 router.get('/:id', (req, res, id) => {
     const found = members.some(member => member.id === parseInt(req.params.id));
@@ -18,8 +19,8 @@ router.get('/:id', (req, res, id) => {
     }
 }
 );
-// Create member
 
+// Create member
 router.post('/', (req, res) => {
     const newMember = {
         id: uuid.v5(),
@@ -54,5 +55,17 @@ router.put('/:id', (req, res, id) => {
     }
 }
 );
+
+// Delete member
+router.delete('/:id', (req, res, id) => {
+    const found = members.some(member => member.id === parseInt(req.params.id));
+    if (found) {
+        res.json( { msg: 'Member deleted', members: members.filter(members => members.id !== parseInt(req.params.id))});
+    }else {
+        res.status(400).json({ msg: `no member with id: ${req.params.id}`});
+    }
+}
+);
+
 
 module.exports = router;
