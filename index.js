@@ -2,7 +2,13 @@ const { response } = require('express');
 const express = require('express');
 const path = require('path');
 const members = require('./Members');
+const logger = require('./middleware/logger');
 const app = express();
+
+
+//Init middleware
+app.use(logger);
+
 
 // app.get('/', (require, response) => {
 //     // response.send('<h1>Hello World</h1>');
