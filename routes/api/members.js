@@ -20,22 +20,23 @@ router.get('/:id', (req, res, id) => {
 }
 );
 
-// Create member
+// Create Member
 router.post('/', (req, res) => {
     const newMember = {
-        id: uuid.v5(),
-        name: req.body.name,
-        email: req.body.email,
-        status: 'active'
+      id: uuid.v4(),
+      name: req.body.name,
+      email: req.body.email,
+      status: 'active'
+    };
+  
+    if (!newMember.name || !newMember.email) {
+      return res.status(400).json({ msg: 'Please include a name and email' });
     }
-
-    if(!newMember.name || !newMember.email) {
-        res.status(400).json({ msg: 'Please include a name and email'});
-    }
-
+  
     members.push(newMember);
     res.json(members);
-});
+    // res.redirect('/');
+  });
 
 // Update member
 router.put('/:id', (req, res, id) => {
