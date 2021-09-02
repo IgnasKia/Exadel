@@ -1,7 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const path = require('path');
-
+const members = require('./Members');
 const app = express();
 
 // app.get('/', (require, response) => {
@@ -9,27 +9,6 @@ const app = express();
 //     response.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
-const members = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@gmail.com',
-      status: 'active'
-    },
-    {
-      id: 2,
-      name: 'Bob Williams',
-      email: 'bob@gmail.com',
-      status: 'inactive'
-    },
-    {
-      id: 3,
-      name: 'Shannon Jackson',
-      email: 'shannon@gmail.com',
-      status: 'active'
-    }
-  ];
-  
 // Gets all members
 app.get('/api/members', (req, res) => {
     res.json(members);
