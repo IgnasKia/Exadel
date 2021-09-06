@@ -5,7 +5,10 @@ const logger = require('./middleware/logger');
 const exphbs = require('express-handlebars');
 const members = require('./Members')
 const app = express();
+const mongoose = require('mongoose');
+const Member = require('./routes/api/models/members');
 
+mongoose.connect('mongodb+srv://members:' + process.env.MONGO_ATLAS_PW + '@exadel-praktika-express.0bku2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
 //Init middleware
 app.use(logger);
 
@@ -23,12 +26,6 @@ app.get('/', (req, res) => res.render('index', {
     members
 }));
 
-// app.get('/', (require, response) => {
-//     // response.send('<h1>Hello World</h1>');
-//     response.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
-
-
 // SET STATIC FOLDER
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,4 +34,4 @@ app.use('/api/members', require('./routes/api/members'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log('Server started on port:', PORT)); 
+app.listen(PORT, () => console.log('Server started on port:', PORT )); 
