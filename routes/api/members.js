@@ -3,6 +3,8 @@ const router = express.Router();
 const uuid = require('uuid');
 const Member = require('../api/models/members');
 const mongoose = require('mongoose');
+const Joi = require('joi');
+const { authSchema } = require('../../helpers/validator');
 
 router.get('/', async (req, res) => {
 	const members = await Member.find({});
@@ -32,7 +34,6 @@ router.get('/:id', (req, res, id) => {
 
 // Create Member
 router.post('/', (req, res) => {
-
     const newMember = new Member({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -44,10 +45,6 @@ router.post('/', (req, res) => {
         console.log(result);
     })
     .catch(err => console.log(err));
-
-    if (!newMember.name || !newMember.email) {
-      return res.status(400).json({ msg: 'Please include a name and email' });
-    }
 
     res.redirect('/');
   });

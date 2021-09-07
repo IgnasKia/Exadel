@@ -10,8 +10,11 @@ const axios = require('axios');
 require('dotenv/config');
 
 
-// handle this!!!!!!
-mongoose.connect(process.env.DB_CONNECTION);
+// connect to database
+mongoose.connect(process.env.DB_CONNECTION)
+.then((result)=> console.log('connected to database'))
+.catch((err) => console.log(err));
+
 //Init middleware
 app.use(logger);
 
