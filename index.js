@@ -7,9 +7,11 @@ const app = express();
 const mongoose = require('mongoose');
 const Member = require('./routes/api/models/members');
 const axios = require('axios');
+require('dotenv/config');
+
 
 // handle this!!!!!!
-mongoose.connect('mongodb+srv://members:' + process.env.MONGO_ATLAS_PW + '@exadel-praktika-express.0bku2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority');
+mongoose.connect(process.env.DB_CONNECTION);
 //Init middleware
 app.use(logger);
 
