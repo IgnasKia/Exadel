@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const members = require('../../Members');
 const uuid = require('uuid');
 const Member = require('../api/models/members');
 const mongoose = require('mongoose');
@@ -49,41 +48,47 @@ router.post('/', (req, res) => {
     if (!newMember.name || !newMember.email) {
       return res.status(400).json({ msg: 'Please include a name and email' });
     }
-  
-    // members.push(newMember);
-    res.json(members);
-    // res.redirect('/');
+
+    res.redirect('/');
   });
 
-// Update member
-router.put('/:id', (req, res, id) => {
-    const found = members.some(member => member.id === parseInt(req.params.id));
-    if (found) {
-        const updMember = req.body;
-        members.forEach(member => {
-            if(member.id === parseInt(req.params.id)) {
-                member.name = updMember.name ? updMember.name : member.name;
-                member.email = updMember.email ? updMember.email : member.email;
-
-                res.json({ msg: 'Member updated', member});
-            }
-        });
+  // Get member data
+router.get('/edit/:id', (req, res, next) => {
+  Member.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true}, (err, docs) => {
+    if(err){
+      console.log("Can't edit");
     }else {
-        res.status(400).json({ msg: `no member with id: ${req.params.id}`});
+      res.render("edit", {
+        member : docs
+      });
     }
-}
-);
+  }).lean();
+});
 
-// Delete member
-router.delete('/:id', (req, res, id) => {
-    const found = members.some(member => member.id === parseInt(req.params.id));
-    if (found) {
-        res.json( { msg: 'Member deleted', members: members.filter(members => members.id !== parseInt(req.params.id))});
+// Edit post
+router.post('/edit/:id', (req, res, next) => {
+  Member.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, docs) => {
+    if(err){
+      console.log("Can't edit");
+      next(err);
     }else {
-        res.status(400).json({ msg: `no member with id: ${req.params.id}`});
+      res.redirect('/');
     }
-}
-);
+  });
+});
+
+// Delete post
+router.get('/delete/:id', (req, res, next) => {
+  Member.findByIdAndDelete({_id: req.params.id}, (err, docs) => {
+    if(err){
+      console.log("Something went wrong");
+      next(err);
+    }else {
+      console.log("Deleted");
+      res.redirect('/');
+    }
+  })
+});
 
 
 module.exports = router;
