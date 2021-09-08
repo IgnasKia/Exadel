@@ -3,7 +3,7 @@ const router = express.Router();
 const uuid = require('uuid');
 const Member = require('../api/models/members');
 const mongoose = require('mongoose');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const { authSchema } = require('../../helpers/validator');
 
 router.get('/', async (req, res) => {
